@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GYANI AI - Your Intelligence</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080b16;
+    color: white;
+    min-height: 100vh;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: #0d1222;
+    border-right: 1px solid #202b45;
+    padding: 25px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #00eaff;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+}
+
+.new-chat {
+    padding: 14px;
+    background: linear-gradient(90deg,#087eaa,#6850c9);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.menu-title {
+    color: #7785a5;
+    font-size: 12px;
+    margin: 15px 8px;
+}
+
+.menu-item {
+    padding: 13px;
+    border-radius: 10px;
+    color: #c5cee0;
+    margin-bottom: 7px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background: #18233b;
+    color: #00eaff;
+}
+
+.owner {
+    margin-top: auto;
+    padding: 15px 10px;
+    border-top: 1px solid #25314b;
+}
+
+.owner-name {
+    color: #00eaff;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.owner-label {
+    color: #7887a5;
+    font-size: 11px;
+}
+
+/* MAIN AREA */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.topbar {
+    height: 70px;
+    border-bottom: 1px solid #202b45;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.topbar h3 {
+    color: #dce8ff;
+}
+
+.online {
+    color: #00ff9d;
+    font-size: 12px;
+}
+
+.content {
+    flex: 1;
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    padding: 35px 25px;
+}
+
+.welcome {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.robot {
+    font-size: 75px;
+    filter: drop-shadow(0 0 20px #00d9ff);
+    margin-bottom: 15px;
+}
+
+.welcome h1 {
+    font-size: 40px;
+    background: linear-gradient(90deg,#00eaff,#a879ff);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.welcome p {
+    color: #8d9bb7;
+    margin-top: 12px;
+}
+
+.suggestions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 45px;
+}
+
+.suggestion {
+    background: #111a2d;
+    border: 1px solid #263653;
+    padding: 20px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.suggestion:hover {
+    border-color: #00d9ff;
+    transform: translateY(-3px);
+}
+
+.suggestion h4 {
+    color: #00eaff;
+    margin-bottom: 8px;
+}
+
+.suggestion p {
+    color: #8d9bb7;
+    font-size: 13px;
+}
+
+.chat-box {
+    margin-top: 35px;
+}
+
+#answer {
+    background: #111a2d;
+    border: 1px solid #263653;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    display: none;
+    color: #dce8ff;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+    background: #111a2d;
+    padding: 10px;
+    border: 1px solid #304263;
+    border-radius: 15px;
+}
+
+.input-area:focus-within {
+    border-color: #00d9ff;
+    box-shadow: 0 0 15px #00d9ff22;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+}
+
+.send {
+    background: linear-gradient(90deg,#00aeea,#7958e8);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 22px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.send:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.note {
+    text-align: center;
+    color: #64738f;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+/* MOBILE */
+@media(max-width:700px) {
+    .sidebar {
+        display: none;
+    }
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .content {
+        padding: 20px 15px;
+    }
+
+    .welcome {
+        margin-top: 35px;
+    }
+
+    .welcome h1 {
+        font-size: 29px;
+    }
+
+    .suggestions {
+        grid-template-columns: 1fr;
+        margin-top: 30px;
+    }
+
+    .robot {
+        font-size: 60px;
+    }
+
+    .send {
+        padding: 12px 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">✦ GYANI AI</div>
+
+        <button class="new-chat" onclick="newChat()">
+            + New Chat
+        </button>
+
+        <div class="menu-title">MENU</div>
+
+        <div class="menu-item" onclick="newChat()">💬 AI Chat</div>
+        <div class="menu-item" onclick="selectPrompt('Teach me something interesting')">📚 AI Learn</div>
+        <div class="menu-item" onclick="selectPrompt('Give me creative ideas')">🎨 AI Create</div>
+        <div class="menu-item" onclick="selectPrompt('Explain the latest technology')">🌐 AI Explore</div>
+<div class="menu-title">RECENT CHATS</div>
+
+<div id="chatHistory">
+    <div class="menu-item">💬 No conversations yet</div>
+</div>
+        <div class="owner">
+            <div class="owner-label">FOUNDER & OWNER</div>
+            <div class="owner-name">CHINMAYA JENA(odisha)</div>
+        </div>
+
+    </aside>
+
+    <main class="main">
+
+        <div class="topbar">
+            <h3>AI Assistant</h3>
+            <div class="online">● SYSTEM ONLINE</div>
+        </div>
+
+        <div class="content">
+
+            <div class="welcome">
+                <div class="robot">🤖</div>
+
+                <h1>Your World, Your Intelligence.</h1>
+
+                <p>Welcome to GYANI AI. How can I help you today?</p>
+            </div>
+
+            <div class="suggestions">
+
+                <div class="suggestion" onclick="selectPrompt('Explain artificial intelligence')">
+                    <h4>🧠 AI Knowledge</h4>
+                    <p>Explore the world of artificial intelligence.</p>
+                </div>
+
+                <div class="suggestion" onclick="selectPrompt('Give me creative ideas')">
+                    <h4>🎨 Creative Ideas</h4>
+                    <p>Discover something creative and exciting.</p>
+                </div>
+
+                <div class="suggestion" onclick="selectPrompt('Teach me something new')">
+                    <h4>📚 Learning</h4>
+                    <p>Learn something new every day.</p>
+                </div>
+
+                <div class="suggestion" onclick="selectPrompt('Tell me about technology')">
+                    <h4>🌐 Explore</h4>
+                    <p>Discover technology and the world.</p>
+                </div>
+
+            </div>
+
+            <div class="chat-box">
+
+                <div id="answer"></div>
+
+                <div class="input-area">
+
+                    <input id="question"
+                    placeholder="Message GYANI AI...">
+
+                    <button class="send" id="sendBtn" onclick="askAI()">
+                        Send ➤
+                    </button>
+
+                </div>
+
+                <div class="note">
+                    GYANI AI can make mistakes. Verify important information.
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+let chatHistory = JSON.parse(localStorage.getItem("gyaniHistory")) || [];
+
+function saveChat(question, reply) {
+    chatHistory.unshift({
+        question: question,
+        reply: reply
+    });
+
+    localStorage.setItem("gyaniHistory", JSON.stringify(chatHistory));
+    showHistory();
+}
+
+function showHistory() {
+    const historyBox = document.getElementById("chatHistory");
+
+    historyBox.innerHTML = "";
+
+    if (chatHistory.length === 0) {
+        historyBox.innerHTML = '<div class="menu-item">💬 No conversations yet</div>';
+        return;
+    }
+
+    chatHistory.slice(0, 10).forEach((chat, index) => {
+        const item = document.createElement("div");
+        item.className = "menu-item";
+        item.textContent = "💬 " + chat.question;
+        item.onclick = () => {
+            document.getElementById("answer").style.display = "block";
+            document.getElementById("answer").innerText = chat.reply;
+        };
+        historyBox.appendChild(item);
+    });
+}
+
+showHistory();
+function selectPrompt(text) {
+    document.getElementById("question").value = text;
+    document.getElementById("question").focus();
+}
+
+function newChat() {
+    document.getElementById("question").value = "";
+    document.getElementById("answer").innerText = "";
+    document.getElementById("answer").style.display = "none";
+}
+
+async function askAI() {
+
+    const input = document.getElementById("question");
+    const answer = document.getElementById("answer");
+    const button = document.getElementById("sendBtn");
+
+    const question = input.value.trim();
+
+    if (!question) return;
+
+    answer.style.display = "block";
+    answer.innerText = "GYANI AI is thinking...";
+    button.disabled = true;
+
+    try {
+
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: question })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Something went wrong.");
+        }
+
+        answer.innerText = data.reply || "No response received.";
+saveChat(question, answer.innerText);
+
+    } catch (error) {
+
+        answer.innerText = "Error: " + error.message;
+
+    } finally {
+
+        button.disabled = false;
+
+    }
+}
+
+document.getElementById("question").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        askAI();
+    }
+});
+
+</script>
+
+</body>
+</html>
